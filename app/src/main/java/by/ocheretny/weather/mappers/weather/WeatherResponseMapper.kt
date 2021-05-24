@@ -6,30 +6,38 @@ import by.ocheretny.weather.mappers.Mapper
 
 class WeatherResponseMapper : Mapper<WeatherResponse, Weather> {
     override fun map(from: WeatherResponse): Weather {
-        val daily = ArrayList<Weather.Daily>()
-        val temp = ArrayList<Weather.Daily.Temp>()
 
-        from.daily?.forEach {
-            var max = it?.temp?.max
-            var min = it?.temp?.min
-            var Weather.
+        val daily = ArrayList<Weather.Daily>()
+
+        from.daily?.forEach { bufferDaily ->
+
+            val temp = Weather.Daily.Temp(bufferDaily?.temp?.max, bufferDaily?.temp?.min)
+
+            val weather = ArrayList<Weather.Daily.Weather>()
+
+            bufferDaily?.weather?.forEach {bufferWeather ->
+                weather.add(Weather.Daily.Weather(
+                        description = bufferWeather?.description,
+                        icon = bufferWeather?.icon,
+                        id = bufferWeather?.id,
+                        main = bufferWeather?.main))
+            }
+
             daily.add(
-                Weather.Daily(
-                    it?.dt,
-                    it?.pop,
-                    max,
-                    min,
-                    it?.uvi,
-                    it?.weather
-                )
+                    Weather.Daily(
+                            bufferDaily?.dt,
+                            bufferDaily?.pop,
+                            temp,
+                            bufferDaily?.uvi,
+                            weather
+                    )
             )
         }
         return Weather(
-            daily = from.daily[1].,
-            lat = from.lat ?: 0.0,
-            lon = from.lon ?: 0.0,
-            timezone = from.timezone.orEmpty(),
-
-            )
+                daily = daily,
+                lat = from.lat ?: 0.0,
+                lon = from.lon ?: 0.0,
+                timezone = from.timezone.orEmpty(),
+                )
     }
 }
