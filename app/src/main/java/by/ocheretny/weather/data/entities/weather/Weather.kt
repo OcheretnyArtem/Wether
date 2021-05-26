@@ -1,4 +1,4 @@
-package by.ocheretny.weather.entities.weather
+package by.ocheretny.weather.data.entities.weather
 
 
 data class Weather(

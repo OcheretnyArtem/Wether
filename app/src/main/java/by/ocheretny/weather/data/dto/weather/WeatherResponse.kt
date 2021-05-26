@@ -1,4 +1,4 @@
-package by.ocheretny.weather.dto.weather
+package by.ocheretny.weather.data.dto.weather
 
 
 import com.google.gson.annotations.SerializedName
