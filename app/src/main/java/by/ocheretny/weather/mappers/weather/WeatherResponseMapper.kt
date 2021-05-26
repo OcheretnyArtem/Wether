@@ -5,39 +5,46 @@ import by.ocheretny.weather.data.entities.weather.Weather
 import by.ocheretny.weather.mappers.Mapper
 
 class WeatherResponseMapper : Mapper<WeatherResponse, Weather> {
+
     override fun map(from: WeatherResponse): Weather {
 
         val daily = ArrayList<Weather.Daily>()
 
         from.daily?.forEach { bufferDaily ->
 
-            val temp = Weather.Daily.Temp(bufferDaily?.temp?.max, bufferDaily?.temp?.min)
+            val temp = Weather.Daily.Temp(
+                max = bufferDaily?.temp?.max ?: 0.0,
+                min = bufferDaily?.temp?.min ?: 0.0
+            )
 
             val weather = ArrayList<Weather.Daily.Weather>()
 
-            bufferDaily?.weather?.forEach {bufferWeather ->
-                weather.add(Weather.Daily.Weather(
-                        description = bufferWeather?.description,
-                        icon = bufferWeather?.icon,
-                        id = bufferWeather?.id,
-                        main = bufferWeather?.main))
+            bufferDaily?.weather?.forEach { bufferWeather ->
+                weather.add(
+                    Weather.Daily.Weather(
+                        description = bufferWeather?.description.orEmpty(),
+                        icon = bufferWeather?.icon.orEmpty(),
+                        id = bufferWeather?.id ?: 0,
+                        main = bufferWeather?.main.orEmpty()
+                    )
+                )
             }
 
             daily.add(
-                    Weather.Daily(
-                            bufferDaily?.dt,
-                            bufferDaily?.pop,
-                            temp,
-                            bufferDaily?.uvi,
-                            weather
-                    )
+                Weather.Daily(
+                    dt = bufferDaily?.dt ?: 0,
+                    pop = bufferDaily?.pop ?: 0,
+                    temp = temp,
+                    uvi = bufferDaily?.uvi ?: 0.0,
+                    weather = weather
+                )
             )
         }
         return Weather(
-                daily = daily,
-                lat = from.lat ?: 0.0,
-                lon = from.lon ?: 0.0,
-                timezone = from.timezone.orEmpty(),
-                )
+            daily = daily,
+            lat = from.lat ?: 0.0,
+            lon = from.lon ?: 0.0,
+            timezone = from.timezone.orEmpty(),
+        )
     }
 }
