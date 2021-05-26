@@ -3,6 +3,7 @@ package by.ocheretny.weather.widget
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
+import android.content.Intent
 import android.widget.RemoteViews
 import by.ocheretny.weather.R
 
@@ -16,6 +17,7 @@ class WeatherWidget : AppWidgetProvider() {
         appWidgetManager: AppWidgetManager,
         appWidgetIds: IntArray
     ) {
+
         // There may be multiple widgets active, so update all of them
         for (appWidgetId in appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId)
@@ -46,6 +48,8 @@ internal fun updateAppWidget(
     val widgetText = loadTitlePref(context, appWidgetId)
     // Construct the RemoteViews object
     val views = RemoteViews(context.packageName, R.layout.weather_widget)
+
+
     views.setTextViewText(R.id.date_one, "24.05")
     views.setTextViewText(R.id.date_two, "24.05")
     views.setTextViewText(R.id.date_three, "24.05")
@@ -55,7 +59,6 @@ internal fun updateAppWidget(
     views.setTextViewText(R.id.temper_two, "+15/+10")
     views.setTextViewText(R.id.temper_three, "+15/+10")
     views.setTextViewText(R.id.temper_four, "+15/+10")
-
 
 
     // Instruct the widget manager to update the widget
