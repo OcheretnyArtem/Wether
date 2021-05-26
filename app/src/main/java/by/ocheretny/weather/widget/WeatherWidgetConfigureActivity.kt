@@ -5,31 +5,38 @@ import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import by.ocheretny.weather.R
+import by.ocheretny.weather.data.dto.weather.WeatherResponse
+import by.ocheretny.weather.data.entities.weather.Weather
 import by.ocheretny.weather.databinding.WeatherWidgetConfigureBinding
+import by.ocheretny.weather.repository.weahter.WeatherRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 /**
  * The configuration screen for the [WeatherWidget] AppWidget.
  */
 class WeatherWidgetConfigureActivity : Activity() {
-    companion object {
-        const val LATITUDE = "latitude"
-        const val LONGITUDE = "longitude"
-    }
-
     private var appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
     private lateinit var latitude: EditText
     private lateinit var longitude: EditText
     private var onClickListener = View.OnClickListener {
         val context = this@WeatherWidgetConfigureActivity
 
-        // When the button is clicked, store the string locally
+        // Когда нажимаем кнопку создать, вычитываем данные
         val latitude = latitude.text.toString()
         val longitude = longitude.text.toString()
-        //saveTitlePref(context, appWidgetId, widgetText)
 
+        //сохроняем их в базу данных
+        saveLatitude(context, appWidgetId, latitude)
+        saveLongitude(context, appWidgetId, longitude)
+
+        // Дальше магия
         // It is the responsibility of the configuration activity to update the app widget
         val appWidgetManager = AppWidgetManager.getInstance(context)
         updateAppWidget(context, appWidgetManager, appWidgetId)
@@ -37,12 +44,11 @@ class WeatherWidgetConfigureActivity : Activity() {
         // Make sure we pass back the original appWidgetId
         val resultValue = Intent()
         resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
-        resultValue.putExtra(LATITUDE,latitude)
-        resultValue.putExtra(LONGITUDE,longitude)
         setResult(RESULT_OK, resultValue)
         finish()
     }
     private lateinit var binding: WeatherWidgetConfigureBinding
+
 
     public override fun onCreate(icicle: Bundle?) {
         super.onCreate(icicle)
@@ -79,25 +85,62 @@ class WeatherWidgetConfigureActivity : Activity() {
 }
 
 private const val PREFS_NAME = "by.ocheretny.weather.widget.WeatherWidget"
-private const val PREF_PREFIX_KEY = "appwidget_"
+private const val LATITUDE_KEY = "latitude"
+private const val LONGITUDE_KEY = "longitude"
 
-// Write the prefix to the SharedPreferences object for this widget
-internal fun saveTitlePref(context: Context, appWidgetId: Int, text: String) {
+
+internal fun saveLatitude(context: Context, appWidgetId: Int, latitude: String) {
     val prefs = context.getSharedPreferences(PREFS_NAME, 0).edit()
-    prefs.putString(PREF_PREFIX_KEY + appWidgetId, text)
+    prefs.putString(LATITUDE_KEY + appWidgetId, latitude)
     prefs.apply()
 }
 
-// Read the prefix from the SharedPreferences object for this widget.
-// If there is no preference saved, get the default from a resource
-internal fun loadTitlePref(context: Context, appWidgetId: Int): String {
+internal fun loadLatitude(context: Context, appWidgetId: Int): String {
     val prefs = context.getSharedPreferences(PREFS_NAME, 0)
-    val titleValue = prefs.getString(PREF_PREFIX_KEY + appWidgetId, null)
-    return titleValue ?: context.getString(R.string.appwidget_text)
+    val latitudeValue = prefs.getString(LATITUDE_KEY + appWidgetId, "0")
+    return latitudeValue ?: "0"
 }
 
-internal fun deleteTitlePref(context: Context, appWidgetId: Int) {
+internal fun deleteLatitude(context: Context, appWidgetId: Int) {
     val prefs = context.getSharedPreferences(PREFS_NAME, 0).edit()
-    prefs.remove(PREF_PREFIX_KEY + appWidgetId)
+    prefs.remove(LATITUDE_KEY + appWidgetId)
     prefs.apply()
+}
+
+internal fun saveLongitude(context: Context, appWidgetId: Int, longitude: String) {
+    val prefs = context.getSharedPreferences(PREFS_NAME, 0).edit()
+    prefs.putString(LONGITUDE_KEY + appWidgetId, longitude)
+    prefs.apply()
+}
+
+internal fun loadLongitude(context: Context, appWidgetId: Int): String {
+    val prefs = context.getSharedPreferences(PREFS_NAME, 0)
+    val value = prefs.getString(LONGITUDE_KEY + appWidgetId, "0")
+    return value ?: "0"
+}
+
+internal fun deleteLongitude(context: Context, appWidgetId: Int) {
+    val prefs = context.getSharedPreferences(PREFS_NAME, 0).edit()
+    prefs.remove(LONGITUDE_KEY + appWidgetId)
+    prefs.apply()
+}
+
+
+fun loadWeather(context: Context, appWidgetId: Int, block: (Weather) -> Unit) {
+    val latitude = loadLatitude(context, appWidgetId)
+    val longitude = loadLongitude(context, appWidgetId)
+    CoroutineScope(Dispatchers.IO).launch {
+        launch(Dispatchers.Main) {   block(Weather.createEmptyWeather())}
+
+        val weatherRepository = WeatherRepository()
+        val result = weatherRepository.loadData(
+            latitude.toDouble(),
+            longitude.toDouble()
+        )
+        launch(Dispatchers.Main) {
+            if (result != null) {
+                block(result)
+            }
+        }
+    }
 }

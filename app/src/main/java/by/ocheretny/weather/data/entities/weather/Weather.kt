@@ -7,6 +7,25 @@ data class Weather(
     val lon: Number?,
     val timezone: String?,
 ) {
+
+    companion object {
+        fun createEmptyWeather(): Weather {
+            return Weather(ArrayList<Weather.Daily?>().apply {
+                add(
+                    Weather.Daily(null, null, Weather.Daily.Temp(
+                        null, null
+                    ), null, ArrayList<Weather.Daily.Weather>().apply {
+                        add(
+                            Weather.Daily.Weather(
+                                null, null, null, null
+                            )
+                        )
+                    })
+                )
+            }, null, null, null)
+        }
+    }
+
     data class Daily(
         val dt: Number?,
         val pop: Number?,

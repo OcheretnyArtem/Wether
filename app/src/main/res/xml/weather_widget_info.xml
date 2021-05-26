@@ -3,9 +3,9 @@
     android:configure="by.ocheretny.weather.widget.WeatherWidgetConfigureActivity"
     android:initialKeyguardLayout="@layout/weather_widget"
     android:initialLayout="@layout/weather_widget"
-    android:minWidth="312dp"
+    android:minWidth="320dp"
     android:minHeight="80dp"
     android:previewImage="@drawable/example_appwidget_preview"
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="86400000"
-    android:widgetCategory="home_screen"/>
+    android:widgetCategory="home_screen" />

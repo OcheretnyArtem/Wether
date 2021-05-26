@@ -1,17 +1,33 @@
 package by.ocheretny.weather.widget
 
+import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.widget.RemoteViews
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProvider
 import by.ocheretny.weather.R
+import by.ocheretny.weather.data.entities.weather.Weather
+import by.ocheretny.weather.repository.weahter.WeatherRepository
+import com.squareup.picasso.Picasso
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.lang.Exception
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * Implementation of App Widget functionality.
  * App Widget Configuration implemented in [WeatherWidgetConfigureActivity]
  */
 class WeatherWidget : AppWidgetProvider() {
+
     override fun onUpdate(
         context: Context,
         appWidgetManager: AppWidgetManager,
@@ -27,7 +43,8 @@ class WeatherWidget : AppWidgetProvider() {
     override fun onDeleted(context: Context, appWidgetIds: IntArray) {
         // When the user deletes the widget, delete the preference associated with it.
         for (appWidgetId in appWidgetIds) {
-            deleteTitlePref(context, appWidgetId)
+            deleteLatitude(context, appWidgetId)
+            deleteLongitude(context, appWidgetId)
         }
     }
 
@@ -45,22 +62,94 @@ internal fun updateAppWidget(
     appWidgetManager: AppWidgetManager,
     appWidgetId: Int
 ) {
-    val widgetText = loadTitlePref(context, appWidgetId)
-    // Construct the RemoteViews object
+
     val views = RemoteViews(context.packageName, R.layout.weather_widget)
+    val dateFormat = SimpleDateFormat("dd.MM")
+
+    val intent = Intent(context, WeatherWidget::class.java)
+    intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+
+    val ids = appWidgetManager.getAppWidgetIds(ComponentName(context, WeatherWidget::class.java))
+    intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
+
+    loadWeather(context, appWidgetId) {
+        try {
+            val time1 = it.daily?.get(0)?.dt?.toLong()?.times(100) ?: 0
+            views.setTextViewText(R.id.date_one, dateFormat.format(Date(time1)))
+
+            val time2 = it.daily?.get(1)?.dt?.toLong()?.times(100) ?: 0
+            views.setTextViewText(R.id.date_two, dateFormat.format(Date(time2)))
+
+            val time3 = it.daily?.get(2)?.dt?.toLong()?.times(100) ?: 0
+            views.setTextViewText(R.id.date_three, dateFormat.format(Date(time3)))
+
+            val time4 = it.daily?.get(3)?.dt?.toLong()?.times(100) ?: 0
+            views.setTextViewText(R.id.date_four, dateFormat.format(Date(time4)))
+
+            it.daily?.get(0)?.weather?.get(0)?.icon?.let {
+//                Picasso.get().load("http://openweathermap.org/img/wn/${it}.png").into(
+//                    views, R.id.img_one, ids
+//                )
+               // views.setImageViewBitmap(R.id.img_one, Picasso.get().load("http://openweathermap.org/img/wn/10d.png").get())
+            }
+
+//            it.daily?.get(1)?.weather?.get(0)?.icon?.let {
+//                views.setImageViewBitmap(
+//                    R.id.img_two,
+//                    Picasso.get().load("http://openweathermap.org/img/wn/${it}.png").get()
+//                )
+//            }
+//            it.daily?.get(2)?.weather?.get(0)?.icon?.let {
+//                views.setImageViewBitmap(
+//                    R.id.img_three,
+//                    Picasso.get().load("http://openweathermap.org/img/wn/${it}.png").get()
+//                )
+//            }
+//            it.daily?.get(3)?.weather?.get(0)?.icon?.let {
+//                views.setImageViewBitmap(
+//                    R.id.img_four,
+//                    Picasso.get().load("http://openweathermap.org/img/wn/${it}.png").
+//                )
+//            }
+
+            val d1Max = it.daily?.get(0)?.temp?.max?.toInt() ?: "--"
+            val d1Min = it.daily?.get(0)?.temp?.min?.toInt() ?: "--"
+            views.setTextViewText(R.id.temper_one, "$d1Max/$d1Min")
+
+            val d2Max = it.daily?.get(1)?.temp?.max?.toInt() ?: "--"
+            val d2Min = it.daily?.get(1)?.temp?.min?.toInt() ?: "--"
+            views.setTextViewText(R.id.temper_two, "$d2Max/$d2Min")
+
+            val d3Max = it.daily?.get(2)?.temp?.max?.toInt() ?: "--"
+            val d3Min = it.daily?.get(2)?.temp?.min?.toInt() ?: "--"
+            views.setTextViewText(R.id.temper_three, "$d3Max/$d3Min")
+
+            val d4Max = it.daily?.get(3)?.temp?.max?.toInt() ?: "--"
+            val d4Min = it.daily?.get(3)?.temp?.min?.toInt() ?: "--"
+            views.setTextViewText(R.id.temper_four, "$d4Max/$d4Min")
+
+        } catch (e: Exception) {
+            views.setTextViewText(R.id.date_one, "--.--")
+            views.setTextViewText(R.id.date_two, "--.--")
+            views.setTextViewText(R.id.date_three, "--.--")
+            views.setTextViewText(R.id.date_four, "--.--")
+
+            views.setTextViewText(R.id.temper_one, "--/--")
+            views.setTextViewText(R.id.temper_two, "--/--")
+            views.setTextViewText(R.id.temper_three, "--/--")
+            views.setTextViewText(R.id.temper_four, "--/--")
+            e.printStackTrace()
+        }
+        appWidgetManager.updateAppWidget(appWidgetId, views)
+    }
 
 
-    views.setTextViewText(R.id.date_one, "24.05")
-    views.setTextViewText(R.id.date_two, "24.05")
-    views.setTextViewText(R.id.date_three, "24.05")
-    views.setTextViewText(R.id.date_four, "24.05")
+    val updateIntent = PendingIntent.getBroadcast(
+        context,
+        appWidgetId,
+        intent,
+        PendingIntent.FLAG_UPDATE_CURRENT
+    )
 
-    views.setTextViewText(R.id.temper_one, "+15/+10")
-    views.setTextViewText(R.id.temper_two, "+15/+10")
-    views.setTextViewText(R.id.temper_three, "+15/+10")
-    views.setTextViewText(R.id.temper_four, "+15/+10")
-
-
-    // Instruct the widget manager to update the widget
-    appWidgetManager.updateAppWidget(appWidgetId, views)
+    views.setOnClickPendingIntent(R.id.button_refresh, updateIntent)
 }

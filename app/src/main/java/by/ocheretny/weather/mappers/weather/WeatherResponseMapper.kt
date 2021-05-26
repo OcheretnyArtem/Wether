@@ -7,9 +7,6 @@ import by.ocheretny.weather.mappers.Mapper
 
 class WeatherResponseMapper : Mapper<WeatherResponse, Weather> {
     override fun map(from: WeatherResponse): Weather {
-
-        Log.e("mapping", from.toString())
-
         val daily = ArrayList<Weather.Daily>()
         from.daily?.forEach { dl ->
             daily.add(
