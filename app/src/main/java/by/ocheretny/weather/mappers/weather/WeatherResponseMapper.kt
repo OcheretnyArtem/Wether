@@ -1,7 +1,7 @@
 package by.ocheretny.weather.mappers.weather
 
-import by.ocheretny.weather.dto.weather.WeatherResponse
-import by.ocheretny.weather.entities.weather.Weather
+import by.ocheretny.weather.data.dto.weather.WeatherResponse
+import by.ocheretny.weather.data.entities.weather.Weather
 import by.ocheretny.weather.mappers.Mapper
 
 class WeatherResponseMapper : Mapper<WeatherResponse, Weather> {
