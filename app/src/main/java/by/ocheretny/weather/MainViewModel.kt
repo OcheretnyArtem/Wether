@@ -1,4 +1,4 @@
-package by.ocheretny.weather.data
+package by.ocheretny.weather
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

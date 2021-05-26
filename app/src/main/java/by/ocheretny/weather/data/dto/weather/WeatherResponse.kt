@@ -4,6 +4,8 @@ package by.ocheretny.weather.data.dto.weather
 import com.google.gson.annotations.SerializedName
 
 data class WeatherResponse(
+    @SerializedName("alerts")
+    val alerts: List<Alert?>?,
     @SerializedName("current")
     val current: Current?,
     @SerializedName("daily")
@@ -11,47 +13,62 @@ data class WeatherResponse(
     @SerializedName("hourly")
     val hourly: List<Hourly?>?,
     @SerializedName("lat")
-    val lat: Double?,
+    val lat: Number?,
     @SerializedName("lon")
-    val lon: Double?,
+    val lon: Number?,
     @SerializedName("minutely")
     val minutely: List<Minutely?>?,
     @SerializedName("timezone")
     val timezone: String?,
     @SerializedName("timezone_offset")
-    val timezoneOffset: Int?
+    val timezoneOffset: Number?
 ) {
+    data class Alert(
+        @SerializedName("description")
+        val description: String?,
+        @SerializedName("end")
+        val end: Number?,
+        @SerializedName("event")
+        val event: String?,
+        @SerializedName("sender_name")
+        val senderName: String?,
+        @SerializedName("start")
+        val start: Number?,
+        @SerializedName("tags")
+        val tags: List<String?>?
+    )
+
     data class Current(
         @SerializedName("clouds")
-        val clouds: Int?,
+        val clouds: Number?,
         @SerializedName("dew_point")
-        val dewPoint: Double?,
+        val dewPoint: Number?,
         @SerializedName("dt")
-        val dt: Int?,
+        val dt: Number?,
         @SerializedName("feels_like")
-        val feelsLike: Double?,
+        val feelsLike: Number?,
         @SerializedName("humidity")
-        val humidity: Int?,
+        val humidity: Number?,
         @SerializedName("pressure")
-        val pressure: Int?,
+        val pressure: Number?,
         @SerializedName("sunrise")
-        val sunrise: Int?,
+        val sunrise: Number?,
         @SerializedName("sunset")
-        val sunset: Int?,
+        val sunset: Number?,
         @SerializedName("temp")
-        val temp: Double?,
+        val temp: Number?,
         @SerializedName("uvi")
-        val uvi: Double?,
+        val uvi: Number?,
         @SerializedName("visibility")
-        val visibility: Int?,
+        val visibility: Number?,
         @SerializedName("weather")
         val weather: List<Weather?>?,
         @SerializedName("wind_deg")
-        val windDeg: Int?,
+        val windDeg: Number?,
         @SerializedName("wind_gust")
-        val windGust: Double?,
+        val windGust: Number?,
         @SerializedName("wind_speed")
-        val windSpeed: Double?
+        val windSpeed: Number?
     ) {
         data class Weather(
             @SerializedName("description")
@@ -59,7 +76,7 @@ data class WeatherResponse(
             @SerializedName("icon")
             val icon: String?,
             @SerializedName("id")
-            val id: Int?,
+            val id: Number?,
             @SerializedName("main")
             val main: String?
         )
@@ -67,68 +84,68 @@ data class WeatherResponse(
 
     data class Daily(
         @SerializedName("clouds")
-        val clouds: Int?,
+        val clouds: Number?,
         @SerializedName("dew_point")
-        val dewPoint: Double?,
+        val dewPoint: Number?,
         @SerializedName("dt")
-        val dt: Int?,
+        val dt: Number?,
         @SerializedName("feels_like")
         val feelsLike: FeelsLike?,
         @SerializedName("humidity")
-        val humidity: Int?,
+        val humidity: Number?,
         @SerializedName("moon_phase")
-        val moonPhase: Double?,
+        val moonPhase: Number?,
         @SerializedName("moonrise")
-        val moonrise: Int?,
+        val moonrise: Number?,
         @SerializedName("moonset")
-        val moonset: Int?,
+        val moonset: Number?,
         @SerializedName("pop")
-        val pop: Int?,
+        val pop: Number?,
         @SerializedName("pressure")
-        val pressure: Int?,
+        val pressure: Number?,
         @SerializedName("rain")
-        val rain: Double?,
+        val rain: Number?,
         @SerializedName("sunrise")
-        val sunrise: Int?,
+        val sunrise: Number?,
         @SerializedName("sunset")
-        val sunset: Int?,
+        val sunset: Number?,
         @SerializedName("temp")
         val temp: Temp?,
         @SerializedName("uvi")
-        val uvi: Double?,
+        val uvi: Number?,
         @SerializedName("weather")
         val weather: List<Weather?>?,
         @SerializedName("wind_deg")
-        val windDeg: Int?,
+        val windDeg: Number?,
         @SerializedName("wind_gust")
-        val windGust: Double?,
+        val windGust: Number?,
         @SerializedName("wind_speed")
-        val windSpeed: Double?
+        val windSpeed: Number?
     ) {
         data class FeelsLike(
             @SerializedName("day")
-            val day: Double?,
+            val day: Number?,
             @SerializedName("eve")
-            val eve: Double?,
+            val eve: Number?,
             @SerializedName("morn")
-            val morn: Double?,
+            val morn: Number?,
             @SerializedName("night")
-            val night: Double?
+            val night: Number?
         )
 
         data class Temp(
             @SerializedName("day")
-            val day: Double?,
+            val day: Number?,
             @SerializedName("eve")
-            val eve: Double?,
+            val eve: Number?,
             @SerializedName("max")
-            val max: Double?,
+            val max: Number?,
             @SerializedName("min")
-            val min: Double?,
+            val min: Number?,
             @SerializedName("morn")
-            val morn: Double?,
+            val morn: Number?,
             @SerializedName("night")
-            val night: Double?
+            val night: Number?
         )
 
         data class Weather(
@@ -137,7 +154,7 @@ data class WeatherResponse(
             @SerializedName("icon")
             val icon: String?,
             @SerializedName("id")
-            val id: Int?,
+            val id: Number?,
             @SerializedName("main")
             val main: String?
         )
@@ -145,39 +162,39 @@ data class WeatherResponse(
 
     data class Hourly(
         @SerializedName("clouds")
-        val clouds: Int?,
+        val clouds: Number?,
         @SerializedName("dew_point")
-        val dewPoint: Double?,
+        val dewPoint: Number?,
         @SerializedName("dt")
-        val dt: Int?,
+        val dt: Number?,
         @SerializedName("feels_like")
-        val feelsLike: Double?,
+        val feelsLike: Number?,
         @SerializedName("humidity")
-        val humidity: Int?,
+        val humidity: Number?,
         @SerializedName("pop")
-        val pop: Int?,
+        val pop: Number?,
         @SerializedName("pressure")
-        val pressure: Int?,
+        val pressure: Number?,
         @SerializedName("rain")
         val rain: Rain?,
         @SerializedName("temp")
-        val temp: Double?,
+        val temp: Number?,
         @SerializedName("uvi")
-        val uvi: Double?,
+        val uvi: Number?,
         @SerializedName("visibility")
-        val visibility: Int?,
+        val visibility: Number?,
         @SerializedName("weather")
         val weather: List<Weather?>?,
         @SerializedName("wind_deg")
-        val windDeg: Int?,
+        val windDeg: Number?,
         @SerializedName("wind_gust")
-        val windGust: Double?,
+        val windGust: Number?,
         @SerializedName("wind_speed")
-        val windSpeed: Double?
+        val windSpeed: Number?
     ) {
         data class Rain(
             @SerializedName("1h")
-            val h: Double?
+            val h: Number?
         )
 
         data class Weather(
@@ -186,7 +203,7 @@ data class WeatherResponse(
             @SerializedName("icon")
             val icon: String?,
             @SerializedName("id")
-            val id: Int?,
+            val id: Number?,
             @SerializedName("main")
             val main: String?
         )
@@ -194,8 +211,8 @@ data class WeatherResponse(
 
     data class Minutely(
         @SerializedName("dt")
-        val dt: Int?,
+        val dt: Number?,
         @SerializedName("precipitation")
-        val precipitation: Int?
+        val precipitation: Number?
     )
 }
