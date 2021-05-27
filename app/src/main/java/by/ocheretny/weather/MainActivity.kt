@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
-import by.ocheretny.weather.data.MainViewModel
 
 class MainActivity : AppCompatActivity() {
     private val viewModel by lazy {
@@ -14,11 +13,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val check = findViewById<TextView>(R.id.check_text_view)
+//        val check = findViewById<TextView>(R.id.check_text_view)
+//
+//        viewModel.weather.observe(this){
+//            check.text = it.timezone.toString() + "0123"
+//        }
+//
+//        viewModel.loadData(33.44,-04.58,"066684c224288ec83f079c8017eb1057","metric")
 
-        viewModel.loadData(33.44,-04.58,"066684c224288ec83f079c8017eb1057","metric")
+       // check.text = viewModel.weather.value?.timezone.toString()
 
-        check.text = viewModel.weather.value?.timezone.toString()
+       // finish()
 
     }
 }

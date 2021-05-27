@@ -7,9 +7,11 @@ import by.ocheretny.weather.networking.weather.WeatherApi
 class WeatherRepository {
 
     private val api = WeatherApi.provideRetrofit()
+    private val appid = "066684c224288ec83f079c8017eb1057"
+    private val units = "metric"
     private val weatherMapper = WeatherResponseMapper()
 
-    suspend fun loadData(lat: Double, lon: Double, appid: String, units: String): Weather? {
+    suspend fun loadData(lat: Double, lon: Double, appid: String = this.appid, units: String= this.units): Weather? {
 
         val response = api.loadData(lat, lon, appid, units)
 
