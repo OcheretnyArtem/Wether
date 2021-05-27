@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 
        // check.text = viewModel.weather.value?.timezone.toString()
 
-       // finish()
+        finish()
 
     }
 }
