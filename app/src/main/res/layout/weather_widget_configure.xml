@@ -15,14 +15,14 @@
         android:id="@+id/latitude"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="text"
-        android:hint="latitude"/>
+        android:hint="@string/latitude"
+        android:inputType="text" />
 
     <EditText
         android:id="@+id/longitude"
-        android:hint="longitude"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="@string/longitude"
         android:inputType="text" />
 
     <Button
