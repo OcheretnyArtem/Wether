@@ -8,6 +8,7 @@
     <string name="weather_at_your_location">Weather at your location</string>
     <string name="longitude">longitude</string>
     <string name="latitude">latitude</string>
+    <string name="save">save</string>
     <string-array name="units">
         <item>metric</item>
         <item>imperial</item>
