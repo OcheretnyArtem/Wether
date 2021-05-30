@@ -8,9 +8,7 @@ import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 
 class MainActivity : AppCompatActivity() {
-    private val viewModel by lazy {
-        ViewModelProvider(this).get(MainViewModel::class.java)
-    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
