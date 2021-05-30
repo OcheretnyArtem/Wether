@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.View
 import android.widget.EditText
 import by.ocheretny.weather.R
+import by.ocheretny.weather.SettingsActivity
 import by.ocheretny.weather.data.dto.weather.WeatherResponse
 import by.ocheretny.weather.data.entities.weather.Weather
 import by.ocheretny.weather.databinding.WeatherWidgetConfigureBinding
@@ -22,6 +23,12 @@ import kotlinx.coroutines.launch
  * The configuration screen for the [WeatherWidget] AppWidget.
  */
 class WeatherWidgetConfigureActivity : Activity() {
+
+    companion object{
+        const val PREFS_NAME = "by.ocheretny.weather.widget.WeatherWidget"
+        const val LATITUDE_KEY = "latitude"
+        const val LONGITUDE_KEY = "longitude"
+    }
     private var appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
     private lateinit var latitude: EditText
     private lateinit var longitude: EditText
@@ -84,58 +91,61 @@ class WeatherWidgetConfigureActivity : Activity() {
 
 }
 
-private const val PREFS_NAME = "by.ocheretny.weather.widget.WeatherWidget"
-private const val LATITUDE_KEY = "latitude"
-private const val LONGITUDE_KEY = "longitude"
+
+
 
 
 internal fun saveLatitude(context: Context, appWidgetId: Int, latitude: String) {
-    val prefs = context.getSharedPreferences(PREFS_NAME, 0).edit()
-    prefs.putString(LATITUDE_KEY + appWidgetId, latitude)
+    val prefs = context.getSharedPreferences(WeatherWidgetConfigureActivity.PREFS_NAME, Context.MODE_PRIVATE).edit()
+    prefs.putString(WeatherWidgetConfigureActivity.LATITUDE_KEY + appWidgetId, latitude)
     prefs.apply()
 }
 
 internal fun loadLatitude(context: Context, appWidgetId: Int): String {
-    val prefs = context.getSharedPreferences(PREFS_NAME, 0)
-    val latitudeValue = prefs.getString(LATITUDE_KEY + appWidgetId, "0")
+    val prefs = context.getSharedPreferences(WeatherWidgetConfigureActivity.PREFS_NAME, Context.MODE_PRIVATE)
+    val latitudeValue = prefs.getString(WeatherWidgetConfigureActivity.LATITUDE_KEY + appWidgetId, "0")
     return latitudeValue ?: "0"
 }
 
 internal fun deleteLatitude(context: Context, appWidgetId: Int) {
-    val prefs = context.getSharedPreferences(PREFS_NAME, 0).edit()
-    prefs.remove(LATITUDE_KEY + appWidgetId)
+    val prefs = context.getSharedPreferences(WeatherWidgetConfigureActivity.PREFS_NAME, Context.MODE_PRIVATE).edit()
+    prefs.remove(WeatherWidgetConfigureActivity.LATITUDE_KEY + appWidgetId)
     prefs.apply()
 }
 
 internal fun saveLongitude(context: Context, appWidgetId: Int, longitude: String) {
-    val prefs = context.getSharedPreferences(PREFS_NAME, 0).edit()
-    prefs.putString(LONGITUDE_KEY + appWidgetId, longitude)
+    val prefs = context.getSharedPreferences(WeatherWidgetConfigureActivity.PREFS_NAME, Context.MODE_PRIVATE).edit()
+    prefs.putString(WeatherWidgetConfigureActivity.LONGITUDE_KEY + appWidgetId, longitude)
     prefs.apply()
 }
 
 internal fun loadLongitude(context: Context, appWidgetId: Int): String {
-    val prefs = context.getSharedPreferences(PREFS_NAME, 0)
-    val value = prefs.getString(LONGITUDE_KEY + appWidgetId, "0")
+    val prefs = context.getSharedPreferences(WeatherWidgetConfigureActivity.PREFS_NAME, Context.MODE_PRIVATE)
+    val value = prefs.getString(WeatherWidgetConfigureActivity.LONGITUDE_KEY + appWidgetId, "0")
     return value ?: "0"
 }
 
 internal fun deleteLongitude(context: Context, appWidgetId: Int) {
-    val prefs = context.getSharedPreferences(PREFS_NAME, 0).edit()
-    prefs.remove(LONGITUDE_KEY + appWidgetId)
+    val prefs = context.getSharedPreferences(WeatherWidgetConfigureActivity.PREFS_NAME, Context.MODE_PRIVATE).edit()
+    prefs.remove(WeatherWidgetConfigureActivity.LONGITUDE_KEY + appWidgetId)
     prefs.apply()
 }
 
 
 fun loadWeather(context: Context, appWidgetId: Int, block: (Weather) -> Unit) {
+    val sp = context.getSharedPreferences(WeatherWidgetConfigureActivity.PREFS_NAME,Context.MODE_PRIVATE)
     val latitude = loadLatitude(context, appWidgetId)
     val longitude = loadLongitude(context, appWidgetId)
     CoroutineScope(Dispatchers.IO).launch {
         launch(Dispatchers.Main) {   block(Weather.createEmptyWeather())}
 
         val weatherRepository = WeatherRepository()
+        val unit = sp.getString(SettingsActivity.UNITS_KEY,"metric")
         val result = weatherRepository.loadData(
             latitude.toDouble(),
-            longitude.toDouble()
+            longitude.toDouble(),
+            units = unit.toString()
+
         )
         launch(Dispatchers.Main) {
             if (result != null) {

@@ -3,4 +3,15 @@
     <string name="appwidget_text">EXAMPLE</string>
     <string name="configure">Configure</string>
     <string name="add_widget">Add widget</string>
+    <string name="settings">settings</string>
+    <string name="units">Units</string>
+    <string name="weather_at_your_location">Weather at your location</string>
+    <string name="longitude">longitude</string>
+    <string name="latitude">latitude</string>
+    <string name="save">save</string>
+    <string-array name="units">
+        <item>metric</item>
+        <item>imperial</item>
+        <item>standard</item>
+    </string-array>
 </resources>
