@@ -96,6 +96,7 @@ internal fun updateAppWidget(
 
             val d1Max = it.daily?.get(0)?.temp?.max?.toInt() ?: "--"
             val d1Min = it.daily?.get(0)?.temp?.min?.toInt() ?: "--"
+
             views.setTextViewText(R.id.temper_one, "$d1Max/$d1Min")
 
             val d2Max = it.daily?.get(1)?.temp?.max?.toInt() ?: "--"
