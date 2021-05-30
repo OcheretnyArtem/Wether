@@ -6,14 +6,8 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.widget.RemoteViews
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModelProvider
 import by.ocheretny.weather.R
-import by.ocheretny.weather.data.entities.weather.Weather
-import by.ocheretny.weather.repository.weahter.WeatherRepository
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -74,43 +68,31 @@ internal fun updateAppWidget(
 
     loadWeather(context, appWidgetId) {
         try {
-            val time1 = it.daily?.get(0)?.dt?.toLong()?.times(100) ?: 0
+            val time1 = it.daily?.get(0)?.dt?.toLong()?.times(1000) ?: 0
             views.setTextViewText(R.id.date_one, dateFormat.format(Date(time1)))
 
-            val time2 = it.daily?.get(1)?.dt?.toLong()?.times(100) ?: 0
+            val time2 = it.daily?.get(1)?.dt?.toLong()?.times(1000) ?: 0
             views.setTextViewText(R.id.date_two, dateFormat.format(Date(time2)))
 
-            val time3 = it.daily?.get(2)?.dt?.toLong()?.times(100) ?: 0
+            val time3 = it.daily?.get(2)?.dt?.toLong()?.times(1000) ?: 0
             views.setTextViewText(R.id.date_three, dateFormat.format(Date(time3)))
 
-            val time4 = it.daily?.get(3)?.dt?.toLong()?.times(100) ?: 0
+            val time4 = it.daily?.get(3)?.dt?.toLong()?.times(1000) ?: 0
             views.setTextViewText(R.id.date_four, dateFormat.format(Date(time4)))
 
             it.daily?.get(0)?.weather?.get(0)?.icon?.let {
-//                Picasso.get().load("http://openweathermap.org/img/wn/${it}.png").into(
-//                    views, R.id.img_one, ids
-//                )
-               // views.setImageViewBitmap(R.id.img_one, Picasso.get().load("http://openweathermap.org/img/wn/10d.png").get())
+                loadImage(views, R.id.img_one, ids, "https://openweathermap.org/img/wn/${it}.png")
             }
 
-//            it.daily?.get(1)?.weather?.get(0)?.icon?.let {
-//                views.setImageViewBitmap(
-//                    R.id.img_two,
-//                    Picasso.get().load("http://openweathermap.org/img/wn/${it}.png").get()
-//                )
-//            }
-//            it.daily?.get(2)?.weather?.get(0)?.icon?.let {
-//                views.setImageViewBitmap(
-//                    R.id.img_three,
-//                    Picasso.get().load("http://openweathermap.org/img/wn/${it}.png").get()
-//                )
-//            }
-//            it.daily?.get(3)?.weather?.get(0)?.icon?.let {
-//                views.setImageViewBitmap(
-//                    R.id.img_four,
-//                    Picasso.get().load("http://openweathermap.org/img/wn/${it}.png").
-//                )
-//            }
+            it.daily?.get(1)?.weather?.get(0)?.icon?.let {
+                loadImage(views, R.id.img_two, ids, "https://openweathermap.org/img/wn/${it}.png")
+            }
+            it.daily?.get(2)?.weather?.get(0)?.icon?.let {
+                loadImage(views, R.id.img_three, ids, "https://openweathermap.org/img/wn/${it}.png")
+            }
+            it.daily?.get(3)?.weather?.get(0)?.icon?.let {
+                loadImage(views, R.id.img_four, ids, "https://openweathermap.org/img/wn/${it}.png")
+            }
 
             val d1Max = it.daily?.get(0)?.temp?.max?.toInt() ?: "--"
             val d1Min = it.daily?.get(0)?.temp?.min?.toInt() ?: "--"
@@ -152,4 +134,12 @@ internal fun updateAppWidget(
     )
 
     views.setOnClickPendingIntent(R.id.button_refresh, updateIntent)
+}
+
+private fun loadImage(views: RemoteViews, id: Int, widgetIds: IntArray, link: String) {
+    CoroutineScope(Dispatchers.Main).launch {
+        Picasso.get()
+            .load(link)
+            .into(views, id, widgetIds)
+    }
 }
