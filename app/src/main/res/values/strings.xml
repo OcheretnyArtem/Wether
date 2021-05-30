@@ -9,6 +9,8 @@
     <string name="longitude">longitude</string>
     <string name="latitude">latitude</string>
     <string name="save">save</string>
+    <string name="permission_received">Permission to track the location has been received. If you are afraid, you can turn it off in the phone settings.</string>
+    <string name="permission_not_received">We will not be able to show you the weather near you if there is no permission</string>
     <string-array name="units">
         <item>metric</item>
         <item>imperial</item>

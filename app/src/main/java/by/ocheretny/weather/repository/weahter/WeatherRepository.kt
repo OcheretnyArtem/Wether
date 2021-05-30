@@ -7,12 +7,12 @@ import by.ocheretny.weather.networking.weather.WeatherApi
 class WeatherRepository {
 
     private val api = WeatherApi.provideRetrofit()
-    private val appid = "066684c224288ec83f079c8017eb1057"
+    private val appId = "066684c224288ec83f079c8017eb1057"
     private val weatherMapper = WeatherResponseMapper()
 
-    suspend fun loadData(lat: Double, lon: Double, appid: String = this.appid, units: String): Weather? {
+    suspend fun loadData(lat: String, lon: String, appId: String = this.appId, units: String): Weather? {
 
-        val response = api.loadData(lat, lon, appid, units)
+        val response = api.loadData(lat, lon, appId, units)
 
         return if (response.isSuccessful) {
 
