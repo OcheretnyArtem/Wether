@@ -7,11 +7,22 @@
     android:theme="@style/ThemeOverlay.Weather.AppWidgetContainer">
 
     <TextView
+        android:id="@+id/city_name"
+        android:layout_width="301dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        tools:text="Minsk" />
+
+    <TextView
         android:id="@+id/date_one"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16sp"
-        android:layout_marginTop="5dp"
+        android:layout_below="@+id/city_name"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
         android:textColor="@color/white"
         android:textSize="20sp"
         tools:text="25.05" />
@@ -20,9 +31,11 @@
         android:id="@+id/date_two"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/city_name"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="16dp"
         android:layout_toEndOf="@id/date_one"
+        android:gravity="center"
         android:textColor="@color/white"
         android:textSize="20sp"
         tools:text="25.05" />
@@ -31,9 +44,11 @@
         android:id="@+id/date_three"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/city_name"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="16dp"
         android:layout_toEndOf="@id/date_two"
+        android:gravity="center"
         android:textColor="@color/white"
         android:textSize="20sp"
         tools:text="25.05" />
@@ -42,9 +57,11 @@
         android:id="@+id/date_four"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/city_name"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="16dp"
         android:layout_toEndOf="@id/date_three"
+        android:gravity="center"
         android:textColor="@color/white"
         android:textSize="20sp"
         tools:text="25.05" />
@@ -108,6 +125,7 @@
         android:layout_marginStart="0dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="0dp"
+        android:gravity="center"
         android:textColor="@color/white"
         android:textSize="@dimen/temper_size"
         tools:text="+22/-10" />
@@ -122,6 +140,7 @@
         android:layout_marginStart="0dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="0dp"
+        android:gravity="center"
         android:textColor="@color/white"
         android:textSize="@dimen/temper_size"
         tools:text="+22/-10" />
@@ -136,6 +155,7 @@
         android:layout_marginStart="0dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="0dp"
+        android:gravity="center"
         android:textColor="@color/white"
         android:textSize="@dimen/temper_size"
         tools:text="+22/-10" />
@@ -150,6 +170,7 @@
         android:layout_marginStart="0dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="0dp"
+        android:gravity="center"
         android:textColor="@color/white"
         android:textSize="@dimen/temper_size"
         tools:text="+22/-10" />
@@ -166,10 +187,10 @@
         android:id="@+id/button_refresh"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="7dp"
         android:layout_alignStart="@+id/button_setting"
         android:layout_alignEnd="@+id/button_setting"
         android:layout_alignBottom="@id/temper_four"
+        android:layout_marginBottom="7dp"
         android:background="@drawable/ic_baseline_autorenew_24" />
 
 

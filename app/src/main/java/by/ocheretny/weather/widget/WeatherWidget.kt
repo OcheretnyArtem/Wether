@@ -69,6 +69,9 @@ internal fun updateAppWidget(
 
     loadWeather(context, appWidgetId) {
         try {
+            val city = it.timezone.toString()
+            views.setTextViewText(R.id.city_name,city)
+
             val time1 = it.daily?.get(0)?.dt?.toLong()?.times(1000) ?: 0
             views.setTextViewText(R.id.date_one, dateFormat.format(Date(time1)))
 
