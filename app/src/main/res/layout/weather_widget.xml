@@ -17,7 +17,7 @@
 
     <TextView
         android:id="@+id/date_one"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/date_width"
         android:layout_height="wrap_content"
         android:layout_below="@+id/city_name"
         android:layout_marginStart="16dp"
@@ -29,7 +29,7 @@
 
     <TextView
         android:id="@+id/date_two"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/date_width"
         android:layout_height="wrap_content"
         android:layout_below="@+id/city_name"
         android:layout_marginStart="16dp"
@@ -42,7 +42,7 @@
 
     <TextView
         android:id="@+id/date_three"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/date_width"
         android:layout_height="wrap_content"
         android:layout_below="@+id/city_name"
         android:layout_marginStart="16dp"
@@ -55,7 +55,7 @@
 
     <TextView
         android:id="@+id/date_four"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/date_width"
         android:layout_height="wrap_content"
         android:layout_below="@+id/city_name"
         android:layout_marginStart="16dp"
