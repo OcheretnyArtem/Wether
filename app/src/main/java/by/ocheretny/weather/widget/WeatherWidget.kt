@@ -8,7 +8,6 @@ import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
 import by.ocheretny.weather.R
-import by.ocheretny.weather.SettingsActivity
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -116,6 +115,7 @@ internal fun updateAppWidget(
             views.setTextViewText(R.id.temper_four, "$d4Max/$d4Min")
 
         } catch (e: Exception) {
+            views.setTextViewText(R.id.city_name,"----")
             views.setTextViewText(R.id.date_one, "--.--")
             views.setTextViewText(R.id.date_two, "--.--")
             views.setTextViewText(R.id.date_three, "--.--")
@@ -125,7 +125,6 @@ internal fun updateAppWidget(
             views.setTextViewText(R.id.temper_two, "--/--")
             views.setTextViewText(R.id.temper_three, "--/--")
             views.setTextViewText(R.id.temper_four, "--/--")
-            e.printStackTrace()
         }
         appWidgetManager.updateAppWidget(appWidgetId, views)
     }
@@ -140,7 +139,14 @@ internal fun updateAppWidget(
 
     views.setOnClickPendingIntent(
         R.id.button_setting,
-        PendingIntent.getActivity(context, 0, Intent(context, SettingsActivity::class.java), 0)
+        PendingIntent.getActivity(
+            context,
+            0,
+            Intent(context, WeatherWidgetConfigureActivity::class.java).apply {
+                putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+            },
+            0
+        )
     )
     views.setOnClickPendingIntent(R.id.button_refresh, updateIntent)
 }

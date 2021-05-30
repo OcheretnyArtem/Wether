@@ -1,19 +1,27 @@
 package by.ocheretny.weather.widget
 
+import android.Manifest
 import android.app.Activity
 import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.EditText
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import by.ocheretny.weather.R
 import by.ocheretny.weather.SettingsActivity
 import by.ocheretny.weather.data.dto.weather.WeatherResponse
 import by.ocheretny.weather.data.entities.weather.Weather
 import by.ocheretny.weather.databinding.WeatherWidgetConfigureBinding
 import by.ocheretny.weather.repository.weahter.WeatherRepository
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -22,7 +30,7 @@ import kotlinx.coroutines.launch
 /**
  * The configuration screen for the [WeatherWidget] AppWidget.
  */
-class WeatherWidgetConfigureActivity : Activity() {
+class WeatherWidgetConfigureActivity : AppCompatActivity() {
 
     companion object{
         const val PREFS_NAME = "by.ocheretny.weather.widget.WeatherWidget"
@@ -56,9 +64,10 @@ class WeatherWidgetConfigureActivity : Activity() {
     }
     private lateinit var binding: WeatherWidgetConfigureBinding
 
-
     public override fun onCreate(icicle: Bundle?) {
         super.onCreate(icicle)
+
+        Log.e("tag", "123")
 
         // Set the result to CANCELED.  This will cause the widget host to cancel
         // out of the widget placement if the user presses the back button.
@@ -81,10 +90,10 @@ class WeatherWidgetConfigureActivity : Activity() {
         }
 
         // If this activity was started with an intent without an app widget ID, finish with an error.
-        if (appWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
-            finish()
-            return
-        }
+//        if (appWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
+//            finish()
+//            return
+//        }
 
         //appWidgetText.setText(loadTitlePref(this@WeatherWidgetConfigureActivity, appWidgetId))
     }
@@ -132,7 +141,7 @@ internal fun deleteLongitude(context: Context, appWidgetId: Int) {
 }
 
 
-fun loadWeather(context: Context, appWidgetId: Int, block: (Weather) -> Unit) {
+internal fun loadWeather(context: Context, appWidgetId: Int, block: (Weather) -> Unit) {
     val sp = context.getSharedPreferences(WeatherWidgetConfigureActivity.PREFS_NAME,Context.MODE_PRIVATE)
     val latitude = loadLatitude(context, appWidgetId)
     val longitude = loadLongitude(context, appWidgetId)
@@ -154,3 +163,4 @@ fun loadWeather(context: Context, appWidgetId: Int, block: (Weather) -> Unit) {
         }
     }
 }
+
