@@ -14,8 +14,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Weather">
 
-        <activity android:name=".SettingsActivity"/>
-
         <receiver android:name=".widget.WeatherWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

@@ -39,6 +39,7 @@ class WeatherWidget : AppWidgetProvider() {
         for (appWidgetId in appWidgetIds) {
             deleteLatitude(context, appWidgetId)
             deleteLongitude(context, appWidgetId)
+            deleteUnit(context, appWidgetId)
         }
     }
 
