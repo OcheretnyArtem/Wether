@@ -15,11 +15,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
         findViewById<Button>(R.id.settings_button).setOnClickListener {
             startActivity(Intent(this,SettingsActivity::class.java))
         }
 //        finish()
-
     }
 }
