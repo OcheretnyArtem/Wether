@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/city_name"
-        android:layout_width="301dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:textColor="@color/white"
@@ -181,6 +181,7 @@
         android:layout_height="50dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
+        android:layout_marginTop="25dp"
         android:background="@drawable/ic_baseline_settings_applications_24" />
 
     <ImageButton
@@ -190,7 +191,7 @@
         android:layout_alignStart="@+id/button_setting"
         android:layout_alignEnd="@+id/button_setting"
         android:layout_alignBottom="@id/temper_four"
-        android:layout_marginBottom="7dp"
+        android:layout_marginBottom="25dp"
         android:background="@drawable/ic_baseline_autorenew_24" />
 
 
