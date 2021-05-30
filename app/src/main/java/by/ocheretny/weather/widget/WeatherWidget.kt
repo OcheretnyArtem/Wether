@@ -121,6 +121,11 @@ internal fun updateAppWidget(
             views.setTextViewText(R.id.date_three, "--.--")
             views.setTextViewText(R.id.date_four, "--.--")
 
+            views.setImageViewResource(R.id.img_one, R.drawable.ic_baseline_remove_24)
+            views.setImageViewResource(R.id.img_two, R.drawable.ic_baseline_remove_24)
+            views.setImageViewResource(R.id.img_three, R.drawable.ic_baseline_remove_24)
+            views.setImageViewResource(R.id.img_four, R.drawable.ic_baseline_remove_24)
+
             views.setTextViewText(R.id.temper_one, "--/--")
             views.setTextViewText(R.id.temper_two, "--/--")
             views.setTextViewText(R.id.temper_three, "--/--")
@@ -155,6 +160,7 @@ private fun loadImage(views: RemoteViews, id: Int, widgetIds: IntArray, link: St
     CoroutineScope(Dispatchers.Main).launch {
         Picasso.get()
             .load(link)
+            .error(R.drawable.ic_baseline_remove_24)
             .into(views, id, widgetIds)
     }
 }
