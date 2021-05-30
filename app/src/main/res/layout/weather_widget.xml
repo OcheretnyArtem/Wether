@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/appWidgetBackgroundColor"
+    android:background="#0DA18D8D"
     android:padding="@dimen/widget_margin"
     android:theme="@style/ThemeOverlay.Weather.AppWidgetContainer">
 
@@ -11,7 +11,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16sp"
-        android:textSize="20dp"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/white"
+        android:textSize="20sp"
         tools:text="25.05" />
 
     <TextView
@@ -19,8 +21,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="5dp"
         android:layout_toEndOf="@id/date_one"
-        android:textSize="20dp"
+        android:textColor="@color/white"
+        android:textSize="20sp"
         tools:text="25.05" />
 
     <TextView
@@ -28,8 +32,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="5dp"
         android:layout_toEndOf="@id/date_two"
-        android:textSize="20dp"
+        android:textColor="@color/white"
+        android:textSize="20sp"
         tools:text="25.05" />
 
     <TextView
@@ -37,8 +43,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="5dp"
         android:layout_toEndOf="@id/date_three"
-        android:textSize="20dp"
+        android:textColor="@color/white"
+        android:textSize="20sp"
         tools:text="25.05" />
 
     <ImageView
@@ -51,6 +59,7 @@
         android:layout_marginStart="0dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="0dp"
+        android:textColor="@color/white"
         tools:src="@drawable/ic_launcher_foreground" />
 
     <ImageView
@@ -99,6 +108,7 @@
         android:layout_marginStart="0dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="0dp"
+        android:textColor="@color/white"
         android:textSize="@dimen/temper_size"
         tools:text="+22/-10" />
 
@@ -112,6 +122,7 @@
         android:layout_marginStart="0dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="0dp"
+        android:textColor="@color/white"
         android:textSize="@dimen/temper_size"
         tools:text="+22/-10" />
 
@@ -125,6 +136,7 @@
         android:layout_marginStart="0dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="0dp"
+        android:textColor="@color/white"
         android:textSize="@dimen/temper_size"
         tools:text="+22/-10" />
 
@@ -138,34 +150,27 @@
         android:layout_marginStart="0dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="0dp"
+        android:textColor="@color/white"
         android:textSize="@dimen/temper_size"
         tools:text="+22/-10" />
 
     <ImageButton
         android:id="@+id/button_setting"
-        android:layout_marginTop="7dp"
-        android:layout_marginRight="7dp"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:background="@drawable/ic_baseline_settings_applications_24"
-        />
+        android:background="@drawable/ic_baseline_settings_applications_24" />
 
     <ImageButton
         android:id="@+id/button_refresh"
-        android:layout_marginRight="7dp"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_marginBottom="7dp"
         android:layout_alignStart="@+id/button_setting"
         android:layout_alignEnd="@+id/button_setting"
         android:layout_alignBottom="@id/temper_four"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="7dp"
-        android:background="@drawable/ic_baseline_autorenew_24"
-        />
-
-
+        android:background="@drawable/ic_baseline_autorenew_24" />
 
 
 </RelativeLayout>

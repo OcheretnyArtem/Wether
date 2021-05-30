@@ -1,7 +1,9 @@
 package by.ocheretny.weather
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 
@@ -13,17 +15,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//        val check = findViewById<TextView>(R.id.check_text_view)
-//
-//        viewModel.weather.observe(this){
-//            check.text = it.timezone.toString() + "0123"
-//        }
-//
-//        viewModel.loadData(33.44,-04.58,"066684c224288ec83f079c8017eb1057","metric")
-
-       // check.text = viewModel.weather.value?.timezone.toString()
-
-        finish()
-
+        findViewById<Button>(R.id.settings_button).setOnClickListener {
+            startActivity(Intent(this,SettingsActivity::class.java))
+        }
+//        finish()
     }
 }
