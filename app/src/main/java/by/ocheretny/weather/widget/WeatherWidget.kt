@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
 import by.ocheretny.weather.R
+import by.ocheretny.weather.SettingsActivity
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -134,6 +135,10 @@ internal fun updateAppWidget(
         PendingIntent.FLAG_UPDATE_CURRENT
     )
 
+    views.setOnClickPendingIntent(
+        R.id.button_setting,
+        PendingIntent.getActivity(context, 0, Intent(context, SettingsActivity::class.java), 0)
+    )
     views.setOnClickPendingIntent(R.id.button_refresh, updateIntent)
 }
 
