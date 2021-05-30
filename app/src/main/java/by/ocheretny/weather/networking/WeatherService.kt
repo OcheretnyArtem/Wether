@@ -9,9 +9,9 @@ interface WeatherService {
     @GET("data/2.5/onecall")
     suspend fun loadData(
             @Query("lat")
-            lat: Double,
+            lat: String,
             @Query("lon")
-            lon: Double,
+            lon: String,
             @Query("appid")
             appid: String,
             @Query("units")
